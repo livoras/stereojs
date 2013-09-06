@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+
+<style type="text/css">
+
+h1 {
+	background: #ccc;
+}
+
+input {
+	width: 300px;
+	height: 30px;
+	font-size: 30px;
+}
+
+</style>
+
+<body>
+	<h1 id='header'>Frame1</h1>
+	<input type='text' id='input'/>
+</body>
+
+<script type="text/javascript" src='../dist/stereo.js'></script>
+
+<script type="text/javascript">
+
+	function $(id) {
+		return document.getElementById(id)
+	}
+
+	$input = $('input')
+
+	$input.addEventListener('input', function(event) {
+		stereo.broadcast('input:change', {
+			content: $input.value
+		})
+	})
+
+</script>
+
+</html>
