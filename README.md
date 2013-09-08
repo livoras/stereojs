@@ -52,6 +52,13 @@ The opposite of  `stereo.on`. You may want to stop listening to certain event, y
 	
 	stereo.off('todo', addTodo)
 	
+	
+
+## Compatibility
+* IE 8+
+* Firefox 3.0+
+* Chrome 4.0+
+* Other Browsers that support `localStorage` events 
 
 ## License
 MIT
