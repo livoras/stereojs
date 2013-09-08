@@ -37,7 +37,7 @@ Listen to other page's changes. When other broadcast the event called `EventName
 		document.getElementById('heading2').innerHTML = todo.content // 'To complete a Hello World program'
 	})
 
-As shown above. Frame1 uses `stereo.broadcast` to trigger an event named  `todo`, and addon an object data. Frame2 listens to `todo` event by using `stereo.on` API. When frame1 broadcast a `todo` event, callback function in Frame2 will be executed, and you can get data sent by frame1 in callback function. 
+As shown above. Frame1 uses `stereo.broadcast` to trigger an event named  `todo`, and addon an object data. Frame2 listens to `todo` event by using `stereo.on` API. When frame1 broadcasts a `todo` event, callback function in Frame2 will be executed, and you can get data sent by frame1 in callback function. 
 
 ### stereo.off(EventName:String, callback:Function)
 The opposite of  `stereo.on`. You may want to stop listening to certain event, you can use this API.
