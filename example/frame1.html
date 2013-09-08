@@ -28,16 +28,24 @@ input {
 <script type="text/javascript">
 
 	function $(id) {
-		return document.getElementById(id)
+		var el = document.getElementById(id)
+		return el
 	}
 
 	$input = $('input')
 
-	$input.addEventListener('input', function(event) {
+
+	if ($input.addEventListener) {
+		$input.addEventListener('input', tellOtherTabs, false)
+	} else {
+		$input.attachEvent('onpropertychange', tellOtherTabs)
+	}
+
+	function tellOtherTabs (event) {
 		stereo.broadcast('input:change', {
 			content: $input.value
 		})
-	})
+	}
 
 </script>
 
