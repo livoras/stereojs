@@ -30,7 +30,7 @@ Tabs except this tab can catch this event by using `stereo.on` API.
 
 ### stereo.on(EventName:String, callback:Function)
 
-Listen to other page's changes. When other broadcast the event called `EventName`, then the callback function in this page will be executed. Data that added when other tabs broadcast event will be passed into callback function. In other words, you can get data from other tabs in callback function.
+Listen to other page's changes. When other broadcast the event called `EventName`, then the callback function in this page will be executed. Data added while other tabs broadcast event will be passed into callback function. In other words, you can get data from other tabs in callback function.
 
 	// frame2.html
 	stereo.on('todo', function (todo) {
