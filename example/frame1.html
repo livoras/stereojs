@@ -20,7 +20,14 @@ input {
 
 <body>
 	<h1 id='header'>Frame1</h1>
+	<p>is master: <span id='is-master'></span></p>
+	<p>id: <span id='id'></span></p>
+	<p>master is: <span id='master'></span></p>
+	<p>next master is: <span id='next-master'></span></p>
+	<p>tabs count is: <span id='count'></span></p>
 	<input type='text' id='input'/>
+	<h1>Content: <div id='content'></div></h1>
+	<a href="http://localhost:3000/example/frame1.html" target='_blank'>New Tab</a>
 </body>
 
 <script type="text/javascript" src='../dist/stereo.js'></script>
@@ -34,6 +41,26 @@ input {
 
 	$input = $('input')
 
+	$isMasterP = $('is-master')
+	$isMasterP.innerHTML = stereo.isMaster()
+
+	stereo.on('master born', function() {
+		if (stereo.isMaster()) {
+			$isMasterP.innerHTML = stereo.isMaster()
+		}
+	})
+
+	$id = $('id')
+	$id.innerHTML = stereo.id
+
+	$master = $('master')
+	$master.innerHTML = stereo.d.get('masterId')
+
+	$count = $('count')
+	$count.innerHTML = stereo.d.get('slaves').length + 1
+
+	$next = $('next-master')
+	$next.innerHTML = stereo.d.get('slaves')[0]
 
 	if ($input.addEventListener) {
 		$input.addEventListener('input', tellOtherTabs, false)
@@ -46,6 +73,19 @@ input {
 			content: $input.value
 		})
 	}
+
+	stereo.isAllowedToBroadcast = function() {
+		return stereo.isMaster()
+	}
+
+	stereo.on('master died', function() {
+		console.log('died')
+	})
+
+	stereo.on('input:change', function(data) {
+		$('content').innerHTML = data.content
+	})
+
 
 </script>
 

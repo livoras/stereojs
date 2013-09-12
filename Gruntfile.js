@@ -12,7 +12,17 @@ module.exports = function (grunt) {
 			},
 
 			stereo: {
-				src: ['src/intro.js', 'src/events.js', 'src/stereo.js', 'src/outro.js'],
+				src: [
+					'src/intro.js', 
+					'src/utils.js', 
+					'src/events.js', 
+					'src/stereo-data.js', 
+					'src/stereo.js', 
+					'src/stereo-strategy.js', 
+					'src/debug.js', 
+					'src/outro.js'
+				],
+
 				dest: 'dist/stereo.js'	
 			}
 		},

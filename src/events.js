@@ -1,16 +1,3 @@
-function extend () {
-	var target = arguments[0]
-	for (var i = arguments.length - 1; i > 0; i--) {
-		var obj = arguments[i] 
-		for (var key in obj) {
-			if(obj.hasOwnProperty(key)) {
-				target[key] = obj[key]
-			}
-		}
-	}
-	return target
-}
-
 function events (obj) {
 	if(!isEventObj(obj)) {
 		obj.events = {}
