@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+	<title></title>
+
+	<meta charset='utf-8'>
+
+</head>
+
+<body>
+
+	<style type="text/css">
+
+		body {
+			font-family: 'Roboto', arial;
+			text-align: center;
+		}
+
+		.box {
+			border: 1px solid #ccc;
+			background-color: #f1f1f1;
+			width: 300px;
+			height: 300px;
+			position: absolute;
+			top: 300px;
+			left: 300px;
+		}
+
+		.box:hover {
+			cursor: move;
+		}
+
+	</style>
+	<h1>Drag And Drop Demo</h1>
+	<p>Open a couple of tabs. </p>
+	<p>Drag and drop the box in one of tabs.</p>
+	<p>Notice the change of boxes in other tabs.</p>
+
+	<div class="box">Drag and Drop Me</div>
+
+	<script type="text/javascript" src='../lib/jquery-1.8.3.min.js'></script>
+	<script type="text/javascript" src='../dist/stereo.js'></script>
+
+	<script type="text/javascript">
+	var x, y, moveFn
+	var $doc = $(document)
+
+	$('div.box').on('mousedown', function(event) {
+		event.preventDefault()
+		var $this = $(this) 
+
+		x = event.clientX
+		y = event.clientY
+
+		moveFn = $.proxy(move, $this)
+		$doc.on('mousemove', moveFn)
+	})
+
+	$doc.on('mouseup', function(event) {
+		$doc.off('mousemove', moveFn)
+	})
+
+	function move (event) {
+		var distX = event.clientX - x 
+		var distY = event.clientY - y
+		var $this = $(this)
+
+		x = event.clientX
+		y = event.clientY
+
+		$this.css('left', '+=' + distX)
+		$this.css('top', '+=' + distY)
+
+		stereo.broadcast('box:move', {
+			'left': $this.css('left'),
+			'top': $this.css('top')
+		})
+	}
+
+	stereo.on('box:move', function(data) {
+		$('div.box').css(data)
+	})
+
+	</script>
+
+</body>
+
+</html>

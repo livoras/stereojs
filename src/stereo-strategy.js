@@ -1,8 +1,8 @@
 stereo.id = guid()
 
+log('ID: ', stereo.id)
+
 stereo.isMaster = function() {
-	log(stereoDataManager.get('masterId'))
-	log(stereo.id)
 	return stereoDataManager.get('masterId') === stereo.id
 }
 
@@ -37,13 +37,12 @@ makeThisTabBirth()
 addEvent('beforeunload', makeThisTabDie)
 
 stereo.on('master died', function() {
-	log('Master Died: ', 'slaves is ', stereoDataManager.get('slaves'))
 	if (stereo.isMaster()) {
 		error('Duplicated master')
 	} else {
 		var slaves = stereoDataManager.get('slaves')
 		if (slaves[0] === stereo.id) {
-			log('This tab wants to be a master')
+			log('This is tab is a candidate')
 			stereo.makeMeMaster()
 		}
 	}
@@ -62,23 +61,21 @@ function makeThisTabBirth(arguments) {
 
 function makeThisTabDie() {
 	stereo.broadcast('tab died')
-	log(stereo.isMaster())
 
 	if (stereo.isMaster()) {
 		stereo.broadcast('master died')
 		stereoDataManager.set('masterId', '')
 	}
 
-	log('Slaves when died', stereoDataManager.get('slaves'))
-
-	// Busy waiting for locking localStorage
-	while(stereoDataManager.hasLock()) ;
+	// Busy waiting for locked localStorage
+	while(stereoDataManager.hasLock())
+		;
 
 	removeSlaveFromSlaves(stereo.id)
 }
 
 function isFirstTab() {
-	return getTabsCount() === 0
+	return !!!stereoDataManager.get('masterId')
 }
 
 function hasSlaves () {
@@ -95,17 +92,18 @@ function removeSlaveFromSlaves(id) {
 			slaves.splice(i, 1)
 		}
 	})
-
 	stereoDataManager.set('slaves', slaves)
-	
+
 	stereoDataManager.unlock()
 }
 
 function getTabsCount() {
 	var masterCount = !!stereoDataManager.get('masterId') ? 1 : 0
-	log(masterCount)
 	var slaves = stereoDataManager.get('slaves')
 	return slaves.length + masterCount
 }
 
 stereo.d = stereoDataManager
+
+log('masterID:', stereoDataManager.get('masterId'))
+log('tabs Count', getTabsCount())
