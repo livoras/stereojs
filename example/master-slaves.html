@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+	<title></title>
+
+	<meta charset='utf-8'>
+
+</head>
+
+<body>
+
+	<style type="text/css">
+
+		* {
+			margin: 0;
+			padding: 0;
+		}
+
+		body {
+			font-family: 'Roboto', arial;
+			text-align: center;
+		}
+
+		h1 {
+			background-color: #000;
+			color: #ededed;
+			height: 100px;
+			line-height: 100px;
+		}
+
+		.button {
+			width: 100px;
+			height: 40px;
+			padding: 10px;
+		}
+
+		.red {
+			color: red;
+		}
+
+		.radius {
+			border-radius: 6px;
+		}	
+
+		textarea {
+			height: 100px;
+			width: 400px;
+			font-family: 'Roboto', arial;
+			padding: 5px;
+			font-size: 16px;
+		}
+
+	</style>
+
+	<h1>Master And Slaves</h1>
+	<h2>I am a <strong id='role' class='red'></strong>	</h2>
+
+	<div id='wrapper'>
+		<div><textarea id='content' placeholder='If you are a master, you can send message to other tabs.'></textarea></div>
+		<button id='send' class='button'>Send</button>
+	</div>
+
+	<script type="text/javascript" src='../lib/jquery-1.8.3.min.js'></script>
+	<script type="text/javascript" src='../dist/stereo.js'></script>
+
+	<script type="text/javascript">
+
+	// Role's change
+	stereo.on('master died', changeRole)
+	changeRole()
+
+	function changeRole(arguments) {
+		var $role = $('#role')
+		var role = stereo.isMaster() ? 'Master': 'Slave' 
+		$role.html(role)
+	}
+
+
+	// Send Message
+	$sendBtn = $('#send')
+	$sendBtn.on('click', function(event) {
+
+		if (!stereo.isMaster()) {
+			alert('You\'re not a Master, have no privilege to send a message');
+		} else {
+			var content = $('#content').val()
+			$('#content').val('')
+			stereo.broadcast('master:message', {content: content})
+			console.log(content)
+		}
+
+	})
+
+	// Get Message from master
+	stereo.on('master:message', function(data) {
+		$('#wrapper').append('<div><strong class="red">Message From Master:</strong> ' + data.content + '</div>')
+	})
+
+	</script>
+
+</body>
+
+</html>

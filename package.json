@@ -1,0 +1,13 @@
+{
+  "family": "RageJS",
+  "version": "0.1.0",
+  "name": "gruntTest",
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-clean": "*",
+    "grunt-contrib-concat": "*",
+    "grunt-contrib-uglify": "*",
+    "grunt-contrib-watch": "*",
+    "grunt-gcc": "*"
+  }
+}
